@@ -1,0 +1,16 @@
+schema_version: repo-contract/v1
+repo:
+  name: domainx
+  owner: ZoneCNH
+  url: https://github.com/ZoneCNH/domainx
+  module: github.com/ZoneCNH/domainx
+identity:
+  layer: L1
+  public_package: github.com/ZoneCNH/domainx/pkg/domain
+  standard_source: github.com/ZoneCNH/xlib-standard
+  is_standard_source: false
+  is_generator: false
+versions:
+  table_version: v0.1.0
+  latest_git_tag: ""
+  all_aligned: false
