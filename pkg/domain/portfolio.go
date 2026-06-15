@@ -31,7 +31,7 @@ func NewBalance(currency string, amount, frozen decimalx.Decimal) (Balance, erro
 func (b Balance) Currency() string                 { return b.currency }
 func (b Balance) Amount() decimalx.Decimal         { return b.amount }
 func (b Balance) Frozen() decimalx.Decimal         { return b.frozen }
-func (b Balance) Total() (decimalx.Decimal, error) { return b.amount.Add(b.frozen), nil }
+func (b Balance) Total() (decimalx.Decimal, error) { return b.amount.Add(b.frozen) }
 
 type balanceJSON struct {
 	Currency string           `json:"currency"`
@@ -73,14 +73,22 @@ func NewPortfolio(accountID string, balances []Balance, positions []Position) (P
 		if err != nil {
 			return Portfolio{}, fmt.Errorf("domainx: balance total: %w", err)
 		}
-		total = total.Add(bt)
+		next, err := total.Add(bt)
+		if err != nil {
+			return Portfolio{}, fmt.Errorf("domainx: portfolio balance total: %w", err)
+		}
+		total = next
 	}
 	for _, p := range positions {
 		mv, err := p.MarketValue(p.AveragePrice())
 		if err != nil {
 			return Portfolio{}, err
 		}
-		total = total.Add(mv)
+		next, err := total.Add(mv)
+		if err != nil {
+			return Portfolio{}, fmt.Errorf("domainx: portfolio market value total: %w", err)
+		}
+		total = next
 	}
 	return Portfolio{accountID: strings.TrimSpace(accountID), balances: append([]Balance(nil), balances...), positions: append([]Position(nil), positions...), totalEquity: total, updatedAt: time.Now().UTC()}, nil
 }

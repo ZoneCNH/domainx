@@ -34,7 +34,7 @@ func (e Exposure) NetExposureRatio() (decimalx.Decimal, bool) {
 	if e.equity.IsZero() {
 		return decimalx.Zero(), false
 	}
-	r, err := e.net.Div(e.equity)
+	r, err := e.net.QuoExact(e.equity)
 	if err != nil {
 		return decimalx.Zero(), false
 	}

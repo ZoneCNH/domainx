@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.1 - 2026-06-15
+
+- Updated `decimalx` to `v1.0.0` and handled checked decimal arithmetic return values.
+
 ## v1.0.0 - 2026-06-15
 
 - Added immutable execution-domain value objects for orders, trades/fills, positions, exposures, execution reports, balances, and portfolios.

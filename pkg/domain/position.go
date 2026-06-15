@@ -57,15 +57,18 @@ func (p Position) MarketValue(markPrice decimalx.Decimal) (decimalx.Decimal, err
 	if err := requireNonNegativePrice("mark_price", markPrice); err != nil {
 		return decimalx.Zero(), err
 	}
-	return p.quantity.Mul(markPrice), nil
+	return p.quantity.Mul(markPrice)
 }
 
 func (p Position) UnrealizedPnL(markPrice decimalx.Decimal) (decimalx.Decimal, error) {
 	if err := requireNonNegativePrice("mark_price", markPrice); err != nil {
 		return decimalx.Zero(), err
 	}
-	diff := markPrice.Sub(p.avgPrice)
-	return diff.Mul(p.quantity), nil
+	diff, err := markPrice.Sub(p.avgPrice)
+	if err != nil {
+		return decimalx.Zero(), err
+	}
+	return diff.Mul(p.quantity)
 }
 
 type positionJSON struct {
