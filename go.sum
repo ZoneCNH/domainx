@@ -1,0 +1,4 @@
+github.com/ZoneCNH/decimalx v0.1.0 h1:Nhxq3lq1eT3qEZopGfcI9rZf7Z+AsaJendPcuKRiBw4=
+github.com/ZoneCNH/decimalx v0.1.0/go.mod h1:1IVI/S1mBRLgju0bGcZYdsy3ZZkA+VtFnZSoZprQxxk=
+github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=
+github.com/shopspring/decimal v1.4.0/go.mod h1:gawqmDU56v4yIKSwfBSFip1HdCCXN8/+DMd9qYNcwME=

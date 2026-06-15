@@ -1,23 +1,44 @@
 # domainx
 
-> FoundationX 执行域共享值对象（L2.5 领域共享，归属基座）
+`domainx` provides immutable L2.5 execution-domain value objects for ZoneCNH services.
 
-## 职责
+## Public package
 
-提供执行域（risk-engine / order-engine / portfolio-engine / settlement）共享的值对象和枚举类型：
+```go
+import "github.com/ZoneCNH/domainx/pkg/domain"
+```
 
-- **Order**：订单模型（包含 OrderState/OrderType/OrderSide 枚举）
-- **Position**：持仓模型
-- **Trade**：成交模型
-- **Portfolio**：组合模型
-- **ExecutionReport**：执行报告模型
+## v1.0.0 value objects
 
-## 归属
+- `Order` — validated side/type/state/quantity/price with explicit state transitions.
+- `Trade` / `Fill` — immutable execution fill records with optional copied `Fee`.
+- `Position` — quantity, average price, market value, and unrealized PnL helpers.
+- `Exposure` — gross/net/equity exposure with fail-closed ratio calculation.
+- `ExecutionReport` — broker/exchange execution-state snapshot validation.
+- `Portfolio` / `Balance` — copied holdings and total-equity snapshot.
 
-本模块属于 L2.5 领域共享层，内容为执行域语义。因被 risk-engine/order-engine/portfolio-engine/settlement 等多个上层模块共享，归属基座管理。
+All money/quantity fields use `github.com/ZoneCNH/decimalx/pkg/decimalx.Decimal`. JSON output uses snake_case keys and decimal strings.
 
-## 相关文档
+## Quick start
 
-- 完整规格：[SPEC.md](https://github.com/ZoneCNH/ZoneCNH/blob/main/module/domainx/SPEC.md)
-- Goal 定义：[goal.md](https://github.com/ZoneCNH/ZoneCNH/blob/main/module/domainx/goal.md)
-- 追溯矩阵：[TRACEABILITY.md](https://github.com/ZoneCNH/ZoneCNH/blob/main/module/domainx/TRACEABILITY.md)
+```go
+qty := decimalx.MustFromString("1.5")
+price := decimalx.MustFromString("42000")
+order, err := domain.NewOrder("BTC-USDT", domain.OrderSideBuy, domain.OrderTypeLimit, qty, price)
+if err != nil {
+    // handle validation error
+}
+submitted, err := order.TransitionTo(domain.OrderStateSubmitted)
+_ = submitted
+```
+
+## Verification
+
+Expected release checks:
+
+```sh
+go test ./...
+go test -race ./...
+go vet ./...
+go test -cover ./...
+```

@@ -11,6 +11,6 @@ identity:
   is_standard_source: false
   is_generator: false
 versions:
-  table_version: v0.1.0
+  table_version: v1.0.0
   latest_git_tag: ""
-  all_aligned: false
+  all_aligned: false  # v1.0.0 source prepared; git tag/release still pending
